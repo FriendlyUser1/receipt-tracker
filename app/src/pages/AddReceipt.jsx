@@ -35,7 +35,7 @@ const AddReceipt = () => {
 	useEffect(() => {
 		const fetchItems = async () => {
 			try {
-				const response = await axios.get("http://localhost:5000/api/items");
+				const response = await axios.get(`/api/items`);
 				const normalizedItems = (response.data.items || [])
 					.map((item) => {
 						if (typeof item === "string") {
@@ -215,7 +215,7 @@ const AddReceipt = () => {
 		}
 
 		try {
-			await axios.post("http://localhost:5000/api/receipts", {
+			await axios.post(`/api/receipts`, {
 				date,
 				total_amount: totalPence,
 				items: normalizedItems,

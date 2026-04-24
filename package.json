@@ -1,0 +1,14 @@
+{
+	"name": "receipt-tracker",
+	"private": true,
+	"scripts": {
+		"dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix app\"",
+		"build": "npm run build --prefix app",
+		"start:frontend": "npm run build --prefix app && npm run preview --prefix app -- --host localhost --port 8080 --strictPort",
+		"start:backend": "node backend/server.js",
+		"start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+	},
+	"dependencies": {
+		"concurrently": "^9.2.1"
+	}
+}
