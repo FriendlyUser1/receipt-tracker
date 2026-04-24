@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./database/db");
 
+require("dotenv").config();
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -31,8 +33,8 @@ app.get("/api/items", (req, res) => {
 	);
 });
 
-// GET /monthly?m=MM&y=YYYY - return total spend for a given month and year
-app.get("/monthly", (req, res) => {
+// GET /api/monthly?m=MM&y=YYYY - return total spend for a given month and year
+app.get("/api/monthly", (req, res) => {
 	const { m, y } = req.query;
 
 	if (!m) {
@@ -96,7 +98,7 @@ app.post("/api/receipts", (req, res) => {
 	);
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
 	console.log(`Server running on http://localhost:${PORT}`),
 );
