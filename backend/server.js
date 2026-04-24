@@ -8,8 +8,6 @@ app.use(express.json());
 
 // GET /api/items - return unique items with latest price for autocomplete
 app.get("/api/items", (req, res) => {
-	console.log("Received request for /api/items");
-
 	db.all(
 		`SELECT i.item_name, i.item_price
 		 FROM items i
