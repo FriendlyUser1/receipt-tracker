@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS receipts (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	date DATE NOT NULL,
+	total_amount INTEGER NOT NULL CHECK (total_amount >= 0)
+);
+
+CREATE TABLE IF NOT EXISTS items (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	receipt_id INTEGER NOT NULL,
+	item_name VARCHAR(255) NOT NULL,
+	item_price INTEGER NOT NULL,
+	FOREIGN KEY (receipt_id) REFERENCES receipts(id)
+);

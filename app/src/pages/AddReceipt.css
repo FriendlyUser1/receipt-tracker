@@ -1,0 +1,142 @@
+.add-receipt-container {
+	margin: 0 auto;
+	padding: 20px;
+	font-family: Arial, sans-serif;
+}
+
+.add-receipt-header {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.add-receipt-form-group {
+	margin-bottom: 15px;
+}
+
+.add-receipt-label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.add-receipt-input {
+	width: 100%;
+	padding: 8px;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+
+.add-receipt-items-container {
+	margin-top: 20px;
+}
+
+.add-receipt-item-row {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.add-receipt-bulk-row-controls {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	margin-bottom: 15px;
+}
+
+.add-receipt-bulk-row-input {
+	width: 180px;
+	padding: 8px;
+	font-size: 14px;
+}
+
+.add-receipt-item-input {
+	flex: 1;
+	padding: 8px;
+	font-size: 14px;
+}
+
+.add-receipt-bulk-create-button {
+	padding: 10px 15px;
+	background-color: #607d8b;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+.add-receipt-add-button {
+	margin-top: 10px;
+	padding: 10px 15px;
+	background-color: #4caf50;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+.add-receipt-submit-button {
+	margin-top: 20px;
+	padding: 10px 15px;
+	background-color: #2196f3;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+.add-receipt-verify-button {
+	margin-top: 15px;
+	margin-right: 10px;
+	padding: 10px 15px;
+	background-color: #ff9800;
+	color: white;
+	border: none;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+.add-receipt-remove-button {
+	padding: 6px 10px;
+	background-color: #f44336;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+.add-receipt-autocomplete-container {
+	position: relative;
+	flex: 1;
+}
+
+.add-receipt-suggestions-list {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background-color: white;
+	border: 1px solid #ccc;
+	border-top: none;
+	max-height: 150px;
+	overflow-y: auto;
+	z-index: 1000;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-receipt-suggestion-item {
+	color: black;
+	padding: 8px 12px;
+	cursor: pointer;
+	border-bottom: 1px solid #eee;
+}
+
+.add-receipt-suggestion-item:hover {
+	background-color: #f5f5f5;
+}
+
+.add-receipt-highlighted-suggestion-item {
+	background-color: #f5f5f5;
+}
+
+.add-receipt-suggestion-price {
+	color: #666;
+	font-size: 12px;
+	margin-left: 8px;
+}
