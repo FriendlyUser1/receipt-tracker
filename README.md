@@ -2,8 +2,8 @@
 
 ## Environment files
 
-- `app/.env` is for Vite-only frontend settings such as `BACKEND_PORT`.
-- `backend/.env` is for Node backend settings such as `PORT` and `DB_PATH`.
+- `app/.env` is for Vite-only frontend settings.
+- `backend/.env` is for Node backend settings.
 
 ## Common scripts
 
