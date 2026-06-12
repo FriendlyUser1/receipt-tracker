@@ -51,8 +51,8 @@ const AddReceipt = () => {
 					.filter(Boolean);
 
 				setAvailableItems(normalizedItems);
-			} catch (err) {
-				console.error("Failed to fetch items:", err);
+			} catch (error) {
+				console.error("Failed to fetch items:", error);
 			}
 		};
 		fetchItems();
@@ -224,8 +224,8 @@ const AddReceipt = () => {
 			setDate("");
 			setTotal("");
 			setItems([{ name: "", price: "" }]);
-		} catch (err) {
-			console.error(err);
+		} catch (error) {
+			console.error(error);
 			alert("Error submitting receipt.");
 		}
 	};

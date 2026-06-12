@@ -31,7 +31,7 @@ app.get("/api/items", (req, res) => {
 
 		res.json({ items });
 	} catch (error) {
-		return res.status(500).json({ error: err.message });
+		return res.status(500).json({ error: error.message });
 	}
 });
 
@@ -77,7 +77,7 @@ app.get("/api/monthly", (req, res) => {
 
 		res.json({ month, year, total_spend: row.total_spend });
 	} catch (error) {
-		return res.status(500).json({ error: err.message });
+		return res.status(500).json({ error: error.message });
 	}
 });
 
