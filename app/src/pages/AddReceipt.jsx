@@ -177,7 +177,10 @@ const AddReceipt = () => {
 
 				setAvailableItems(normalizedItems);
 			} catch (error) {
-				console.error("Failed to fetch items:", error);
+				console.error(
+					"Failed to fetch items:",
+					error.response?.data?.message || error,
+				);
 			}
 		};
 		fetchItems();
@@ -340,17 +343,18 @@ const AddReceipt = () => {
 		}
 
 		try {
-			await axios.post(`/api/receipts`, {
+			const postResponse = await axios.post(`/api/receipts`, {
 				date,
 				total_amount: totalPence,
 				items: normalizedItems,
 			});
-			alert("Receipt added successfully!");
+
+			alert(postResponse.data.message);
 			setDate("");
 			setTotal("");
 			setItems([{ name: "", price: "" }]);
 		} catch (error) {
-			console.error(error.error);
+			console.error(error.response?.data?.message || error);
 			alert("Error submitting receipt.");
 		}
 	};

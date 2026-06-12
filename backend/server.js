@@ -32,7 +32,7 @@ app.get("/api/items", (req, res) => {
 		res.json({ items });
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ error: error.message });
+		return res.status(500).json({ message: error.message });
 	}
 });
 
@@ -43,24 +43,24 @@ app.get("/api/monthly", (req, res) => {
 	if (!m) {
 		return res
 			.status(400)
-			.json({ error: "Query parameter 'm' is required (01-12)." });
+			.json({ message: "Query parameter 'm' is required (01-12)." });
 	}
 
 	if (!y) {
 		return res
 			.status(400)
-			.json({ error: "Query parameter 'y' is required (YYYY)." });
+			.json({ message: "Query parameter 'y' is required (YYYY)." });
 	}
 
 	const monthNumber = Number.parseInt(m, 10);
 	if (Number.isNaN(monthNumber) || monthNumber < 1 || monthNumber > 12) {
 		return res
 			.status(400)
-			.json({ error: "Invalid month. Use a value from 01 to 12." });
+			.json({ message: "Invalid month. Use a value from 01 to 12." });
 	}
 
 	if (!/^\d{4}$/.test(String(y))) {
-		return res.status(400).json({ error: "Invalid year. Use YYYY format." });
+		return res.status(400).json({ message: "Invalid year. Use YYYY format." });
 	}
 
 	const month = String(monthNumber).padStart(2, "0");
@@ -79,7 +79,7 @@ app.get("/api/monthly", (req, res) => {
 		res.json({ month, year, total_spend: row.total_spend });
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ error: error.message });
+		return res.status(500).json({ message: error.message });
 	}
 });
 
@@ -100,10 +100,10 @@ app.post("/api/receipts", (req, res) => {
 			itemStmt.run(receiptId, name, price);
 		});
 
-		res.status(201).send({ message: "Receipt added successfully" });
+		res.status(201).json({ message: "Receipt added successfully" });
 	} catch (error) {
-		console.log(error);
-		return res.status(500).json({ error: error.message });
+		console.error(error);
+		return res.status(500).json({ message: error.message });
 	}
 });
 
