@@ -1,6 +1,6 @@
 import "./AddReceipt.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 
@@ -15,6 +15,7 @@ const AddReceipt = () => {
 		{},
 	);
 	const [bulkRowCount, setBulkRowCount] = useState("");
+	const importInputRef = useRef(null);
 
 	const parsePoundsToPence = (value) => {
 		if (value === "" || value === null || value === undefined) return null;
@@ -29,6 +30,130 @@ const AddReceipt = () => {
 		const numericPence = Number(pence);
 		if (Number.isNaN(numericPence)) return "";
 		return (numericPence / 100).toFixed(2);
+	};
+
+	const normalizeImportedDate = (value) => {
+		if (typeof value !== "string") return "";
+
+		const trimmed = value.trim();
+		if (!trimmed) return "";
+
+		if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+			return trimmed;
+		}
+
+		const slashParts = trimmed.split("/");
+		if (slashParts.length === 3) {
+			const [day, month, year] = slashParts;
+			if (
+				/^\d{1,2}$/.test(day) &&
+				/^\d{1,2}$/.test(month) &&
+				/^\d{4}$/.test(year)
+			) {
+				const paddedDay = day.padStart(2, "0");
+				const paddedMonth = month.padStart(2, "0");
+				return `${year}-${paddedMonth}-${paddedDay}`;
+			}
+		}
+
+		return "";
+	};
+
+	const normalizeImportedItems = (importedItems) => {
+		if (!Array.isArray(importedItems)) return null;
+
+		const normalized = [];
+		for (const entry of importedItems) {
+			if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+				return null;
+			}
+
+			if (typeof entry.name === "string") {
+				const price = entry.price;
+				const numericPrice = Number(price);
+				if (!Number.isFinite(numericPrice)) {
+					return null;
+				}
+
+				normalized.push({
+					name: entry.name,
+					price: numericPrice.toFixed(2),
+				});
+				continue;
+			}
+
+			const keys = Object.keys(entry);
+			if (keys.length !== 1) {
+				return null;
+			}
+
+			const itemName = keys[0];
+			const itemPrice = entry[itemName];
+			const numericPrice = Number(itemPrice);
+			if (!itemName || !Number.isFinite(numericPrice)) {
+				return null;
+			}
+
+			normalized.push({
+				name: itemName,
+				price: numericPrice.toFixed(2),
+			});
+		}
+
+		return normalized;
+	};
+
+	const handleImportClick = () => {
+		if (importInputRef.current) {
+			importInputRef.current.value = "";
+			importInputRef.current.click();
+		}
+	};
+
+	const handleImportReceipt = async (e) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+
+		try {
+			const fileText = await file.text();
+			const payload = JSON.parse(fileText);
+
+			if (!payload || typeof payload !== "object") {
+				alert("Invalid JSON structure. Expected an object.");
+				return;
+			}
+
+			const importedDate = normalizeImportedDate(payload.date);
+			if (!importedDate) {
+				alert("Invalid date. Use YYYY-MM-DD or DD/MM/YYYY.");
+				return;
+			}
+
+			const importedTotal = Number(payload.total);
+			if (!Number.isFinite(importedTotal) || importedTotal < 0) {
+				alert("Invalid total. Expected a non-negative number.");
+				return;
+			}
+
+			const importedItems = normalizeImportedItems(payload.items);
+			if (!importedItems || importedItems.length === 0) {
+				alert(
+					'Invalid items array. Expected at least one item in {name, price} or {"Item Name": price} format.',
+				);
+				return;
+			}
+
+			setDate(importedDate);
+			setTotal(importedTotal.toFixed(2));
+			setItems(importedItems);
+			setSuggestions({});
+			setShowSuggestions({});
+			setHighlightedSuggestionIndex({});
+			alert("Receipt imported successfully.");
+		} catch (error) {
+			console.error("Failed to import receipt JSON:", error);
+			alert("Could not import JSON file. Please check the file format.");
+		}
 	};
 
 	// Fetch available items for autocomplete
@@ -233,6 +358,22 @@ const AddReceipt = () => {
 	return (
 		<div className="add-receipt-container">
 			<h1 className="add-receipt-header">Add Receipt</h1>
+			<div className="add-receipt-form-group">
+				<button
+					type="button"
+					className="add-receipt-add-button"
+					onClick={handleImportClick}
+				>
+					Import Receipt JSON
+				</button>
+				<input
+					ref={importInputRef}
+					type="file"
+					accept="application/json,.json"
+					onChange={handleImportReceipt}
+					style={{ display: "none" }}
+				/>
+			</div>
 			<form onSubmit={handleSubmit}>
 				{/* Date Input */}
 				<div className="add-receipt-form-group">
