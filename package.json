@@ -2,10 +2,12 @@
 	"name": "receipt-tracker",
 	"private": true,
 	"scripts": {
-		"dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix app\"",
+		"dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+		"dev:backend": "HOST=0.0.0.0 PORT=5000 npm run dev --prefix backend",
+		"dev:frontend": "VITE_BACKEND_PORT=5000 VITE_BACKEND_HOST=0.0.0.0 npm run dev --prefix app -- --host 0.0.0.0 --port 5180 --strictPort",
 		"build": "npm run build --prefix app",
-		"start:frontend": "npm run build --prefix app && npm run preview --prefix app -- --host localhost --port 8080 --strictPort",
-		"start:backend": "node backend/server.js",
+		"start:frontend": "npm run build --prefix app && npm run preview --prefix app -- --host 0.0.0.0 --port 8080 --strictPort",
+		"start:backend": "HOST=0.0.0.0 PORT=5000 node backend/server.js",
 		"start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
 	},
 	"dependencies": {

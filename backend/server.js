@@ -104,7 +104,8 @@ app.post("/api/receipts", (req, res) => {
 	}
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, "127.0.0.1", () =>
-	console.log(`Server running on http://localhost:${PORT}`),
+const PORT = process.env.PORT ?? 5000;
+const HOST = process.env.HOST ?? "127.0.0.1";
+app.listen(PORT, HOST, () =>
+	console.log(`Server running on http://${HOST}:${PORT}`),
 );
