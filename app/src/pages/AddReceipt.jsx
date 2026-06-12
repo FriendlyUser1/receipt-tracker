@@ -350,7 +350,7 @@ const AddReceipt = () => {
 			setTotal("");
 			setItems([{ name: "", price: "" }]);
 		} catch (error) {
-			console.error(error);
+			console.error(error.error);
 			alert("Error submitting receipt.");
 		}
 	};
