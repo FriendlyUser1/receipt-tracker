@@ -100,7 +100,7 @@ app.post("/api/receipts", (req, res) => {
 
 		res.status(201).send({ message: "Receipt added successfully" });
 	} catch (error) {
-		return res.status(500).json({ error: err.message });
+		return res.status(500).json({ error: error.message });
 	}
 });
 
